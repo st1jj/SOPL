@@ -1,5 +1,11 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using SOPL.Models;
+using SOPL.Services.Auth;
 using SOPL.Web;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,12 +19,12 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<SdOPLDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("SoplDatabase")));
 
-//builder.Services.AddAuthentication("Bearer")
-//    .AddJwtBearer(options =>
-//    {
-//        options.Authority = "https://localhost:5001"; // serwer autoryzacji
-//        options.Audience = "sopl_api";
-//    });
+builder.Services.AddScoped<AccountService>();
+builder.Services.AddScoped<JwtService>();
+builder.Services.Configure<AuthSettings>(builder.Configuration.GetSection("AuthSettings"));
+builder.Services.AddAuth(builder.Configuration);
+
+
 var app = builder.Build();
 
 
