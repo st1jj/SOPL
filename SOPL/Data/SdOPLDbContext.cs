@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using SOPL.Models;
 using System.Collections.Generic;
 using System.Reflection.Emit;
@@ -7,6 +8,7 @@ namespace SOPL.Web
 {
     public class SdOPLDbContext : DbContext
     {
+        public DbSet<Account>Accounts { get; set; }
         public DbSet<Pacjent> Pacjenci { get; set; }
         public DbSet<Lekarz> Lekarze { get; set; }
         public DbSet<Wizyta> Wizyty { get; set; }
