@@ -9,9 +9,9 @@ namespace SOPL.Controllers
     [Route("api/[controller]")]
     public class ReceptyController : ControllerBase
     {
-        private readonly SoplDbContext _context;
+        private readonly SdOPLDbContext _context;
 
-        public ReceptyController(SoplDbContext context)
+        public ReceptyController(SdOPLDbContext context)
         {
             _context = context;
         }
