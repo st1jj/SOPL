@@ -6,7 +6,7 @@ using System.Reflection.Emit;
 
 namespace SOPL.Web
 {
-    public class SdOPLDbContext : DbContext
+    public class SdOPLDbContext : IdentityDbContext<Account>
     {
         public DbSet<Account>Accounts { get; set; }
         public DbSet<Pacjent> Pacjenci { get; set; }
@@ -21,6 +21,7 @@ namespace SOPL.Web
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+                base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Pacjent>(entity =>
             {
