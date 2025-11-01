@@ -1,11 +1,11 @@
-﻿namespace SOPL.Models
-{
-    public class Account
-    {
-        public Guid Id { get; set; }
-        public string Email { get; set; }
-        public string PasswordHash { get; set; }
+﻿using Microsoft.AspNetCore.Identity;
 
-        public string UserName { get; set; }
+namespace SOPL.Models
+{
+    public class Account: IdentityUser
+    {
+        public string? FirstName { get; set; }
+        public string? LastName { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 }
