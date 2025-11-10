@@ -77,7 +77,7 @@ namespace SOPL.Services.Auth
             if (user == null) return false;
 
             var decodedToken = WebUtility.UrlDecode(token);
-            var result = await _userManager.ResetPasswordAsync(user, decodedToken, newPassword);
+            var result = await _userManager.ResetPasswordAsync(user, token, newPassword);
             return result.Succeeded;
         }
     }
