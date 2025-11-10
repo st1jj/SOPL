@@ -45,7 +45,7 @@ export default function ResetPassword() {
 
       const payload = {
         Email: form.email,
-        Token: form.token,       // токен без decodeURIComponent
+        Token: form.token,      
         NewPassword: form.newPassword
       };
 
