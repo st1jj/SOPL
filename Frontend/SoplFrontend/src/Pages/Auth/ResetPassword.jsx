@@ -18,7 +18,7 @@ export default function ResetPassword() {
     const emailParam = searchParams.get("email");
     const tokenParam = searchParams.get("token");
     if (emailParam && tokenParam) {
-      
+      // Используем token "как есть", не декодируем
       setForm({
         email: emailParam,
         token: tokenParam,
