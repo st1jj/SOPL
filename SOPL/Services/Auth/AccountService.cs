@@ -56,19 +56,20 @@ namespace SOPL.Services.Auth
         public async Task SendResetTokenAsync(string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
-            if (user == null) return; 
-
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
             var encodedToken = WebUtility.UrlEncode(token);
 
-            var callbackUrl = $"{_config["FrontendUrl"]}/reset-password?email={email}&token={encodedToken}";
+           
+            var frontendUrl = _config["Frontend:BaseUrl"]; 
+            var callbackUrl = $"{frontendUrl}/reset-password?email={email}&token={encodedToken}";
 
             await _emailService.SendEmailAsync(
                 email,
-                "Reset your password",
-                $"Click <a href='{callbackUrl}'>here</a> to reset your password."
+                "Resetowanie hasła",
+                $"Kliknij <a href='{callbackUrl}'>tutaj</a>, aby zresetować hasło."
             );
             _logger.LogInformation(encodedToken);
+
         }
 
         public async Task<bool> ResetPasswordAsync(string email, string token, string newPassword)
@@ -76,8 +77,8 @@ namespace SOPL.Services.Auth
             var user = await _userManager.FindByEmailAsync(email);
             if (user == null) return false;
 
-            var decodedToken = WebUtility.UrlDecode(token);
-            var result = await _userManager.ResetPasswordAsync(user, decodedToken, newPassword);
+            
+            var result = await _userManager.ResetPasswordAsync(user, token, newPassword);
             return result.Succeeded;
         }
     }

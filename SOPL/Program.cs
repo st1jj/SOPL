@@ -23,17 +23,24 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddCors(options =>
 {
-    options.AddDefaultPolicy(policy =>
-    {
-        policy.WithOrigins("http://localhost:3000") 
-              .AllowAnyHeader()
-              .AllowAnyMethod();
-    });
+    options.AddPolicy("AllowFrontend",
+        policy => policy
+            .WithOrigins("http://localhost:5173") 
+            .AllowAnyHeader()
+            .AllowAnyMethod());
 });
 
 
+
+
 builder.Services.AddDbContext<SdOPLDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("SoplDatabase")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("SoplDatabase"),
+    sqlOptions => sqlOptions.EnableRetryOnFailure(
+            maxRetryCount: 5,               
+            maxRetryDelay: TimeSpan.FromSeconds(10), 
+            errorNumbersToAdd: null          
+        )
+    ));
 
 builder.Services.AddIdentity<Account, IdentityRole>(options =>
 {
@@ -72,5 +79,5 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.UseCors();
 app.MapControllers();
-
+app.UseCors("AllowFrontend");
 app.Run();
